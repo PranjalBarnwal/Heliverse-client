@@ -11,12 +11,13 @@ export const Home = () => {
       navigate("/signin");
     }
 
-    alert("Note:- Sometimes the features can take time due to slow hostng . Please logout and login again if so happens or contact me on 8083696152")
+    alert(
+      "Note:- Sometimes the features can take time due to slow hostng . Please logout and login again if so happens or contact me on 8083696152"
+    );
   }, []);
 
   return (
     <div className="ml-10">
-      
       <h1 className="text-3xl underline mb-2">Features</h1>
       <p>
         <strong>Principal</strong>
@@ -38,17 +39,18 @@ export const Home = () => {
       <p>
         <strong>Teacher</strong>
       </p>
-      <ul  className="list-disc">
+      <ul className="list-disc">
         <li>See the list of Students in their classroom in table form.</li>
         <li>
           Teacher can change the details of Students or delete them as well.
         </li>
+        <li>Add time table(lectures) in the schedule </li>
       </ul>
 
       <p>
         <strong>Student</strong>
       </p>
-      <ul  className="list-disc">
+      <ul className="list-disc">
         <li>They can see other students in the classroom.</li>
       </ul>
 
