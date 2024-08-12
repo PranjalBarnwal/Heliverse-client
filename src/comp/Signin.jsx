@@ -26,7 +26,8 @@ export function Signin() {
   };
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     setLoading(true);
     let endpoint = "";
 
@@ -73,7 +74,7 @@ export function Signin() {
   return (
     <div className="h-[90vh] flex w-screen items-center justify-center">
 
-    
+    <form action="" onSubmit={(e)=>handleLogin(e)}>
     <Card className="w-full max-w-sm ">
       <RadioGroup
         defaultValue="Principal"
@@ -123,11 +124,13 @@ export function Signin() {
         </div>
       </CardContent>
       <CardFooter>
-      <Button className="w-full" onClick={handleLogin} disabled={loading}>
+      <Button className="w-full" type="submit" disabled={loading}>
           {loading ? "Signing in..." : "Sign in"}
         </Button>
       </CardFooter>
     </Card>
+    </form>
+    
     </div>
   );
 }

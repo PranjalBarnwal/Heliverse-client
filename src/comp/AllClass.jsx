@@ -208,16 +208,17 @@ export const AllClassrooms = () => {
     }
   };
 
-  const handleSaveChanges = async () => {
+  const handleSaveChanges = async (id) => {
     let obj = {};
 
     const today = new Date().toISOString().split("T")[0];
-    obj.classroomId = selectedClass;
+    obj.classroomId = id;
     obj.day = selectedDay;
 
     obj.startTime = `${today}T${startTime}:00`;
     obj.endTime = `${today}T${endTime}:00`;
-
+    console.log(obj);
+    
     try {
       const response = await fetch(`${headerEP}/account/add/schedule`, {
         method: "POST",
@@ -308,9 +309,9 @@ export const AllClassrooms = () => {
                     <DialogHeader>
                       <DialogTitle>Add Schedule</DialogTitle>
                     </DialogHeader>
-                    <form action="" onSubmit={handleSaveChanges}>
+                    <form action="" onSubmit={()=>handleSaveChanges(classroom.id)}>
                       <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
+                        {/* <div className="grid grid-cols-4 items-center gap-4">
                           <Select
                             value={selectedClass}
                             onValueChange={(value) => setSelectedClass(value)}
@@ -333,7 +334,7 @@ export const AllClassrooms = () => {
                               </SelectGroup>
                             </SelectContent>
                           </Select>
-                        </div>
+                        </div> */}
                         <div className="grid grid-cols-4 items-center gap-4">
                           <Select
                             value={selectedDay}
@@ -379,7 +380,7 @@ export const AllClassrooms = () => {
                         </div>
                       </div>
                       <DialogFooter>
-                        <Button onSubmit={handleSaveChanges} type="submit">
+                        <Button  type="submit">
                           Save changes
                         </Button>
                       </DialogFooter>
