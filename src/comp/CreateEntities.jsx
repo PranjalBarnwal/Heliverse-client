@@ -24,14 +24,11 @@ const CreateEntities = () => {
   const [studentName, setStudentName] = useState("");
   const [studentEmail, setStudentEmail] = useState("");
   const [studentPassword, setStudentPassword] = useState("");
-  // const [scheduleClassName, setScheduleClassName] = useState("");
-  // const [scheduleDay, setScheduleDay] = useState("");
-  // const [scheduleStartTime, setScheduleStartTime] = useState("");
-  // const [scheduleEndTime, setScheduleEndTime] = useState("");
+
   const token = useSelector((state) => state.user.token);
   const profile = useSelector((state) => state.user.profile);
   useEffect(() => {
-    if (profile.toLowerCase() != "PRINCIPAL".toLowerCase()) {
+    if (profile.toLowerCase() == "STUDENT".toLowerCase()) {
       alert("Unauthorised access, Login as Principal to access");
       navigate("/signin");
     }
@@ -121,29 +118,31 @@ const CreateEntities = () => {
     <div className="h-[90vh] w-[90vw] flex justify-center items-center">
       <div className="space-y-6" onSubmit={(e) => e.preventDefault()}>
         <RadioGroup
-          defaultValue="class"
+          defaultValue=""
           onValueChange={setEntityType}
           className="flex space-x-4"
         >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="class" id="class" />
-            <Label htmlFor="class">Create Class</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="teacher" id="teacher" />
-            <Label htmlFor="teacher">Create Teacher</Label>
-          </div>
+          {profile.toLowerCase() === "principal" && (
+            <>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="class" id="class" />
+                <Label htmlFor="class">Create Class</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="teacher" id="teacher" />
+                <Label htmlFor="teacher">Create Teacher</Label>
+              </div>
+             
+            </>
+          )}
+
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="student" id="student" />
             <Label htmlFor="student">Create Student</Label>
           </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="schedule" id="schedule" />
-            <Label htmlFor="schedule">Create Schedule</Label>
-          </div>
         </RadioGroup>
 
-        {entityType === "class" && (
+        {entityType === "class" && profile.toLowerCase() == "principal" && (
           <form action="" onSubmit={handleCreateClass}>
             <Card className="w-full max-w-sm">
               <CardHeader>

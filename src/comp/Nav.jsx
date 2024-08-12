@@ -21,6 +21,11 @@ export const Nav = () => {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
+              <NavigationMenuTrigger onClick={() => navigate("/home")}>
+                Home
+              </NavigationMenuTrigger>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <NavigationMenuTrigger onClick={() => navigate("/allTeacher")}>
                 Teachers
               </NavigationMenuTrigger>
@@ -47,6 +52,16 @@ export const Nav = () => {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
+              <NavigationMenuTrigger onClick={() => navigate("/home")}>
+                Home
+              </NavigationMenuTrigger>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger onClick={() => navigate("/create")}>
+                Create
+              </NavigationMenuTrigger>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <NavigationMenuTrigger
                 onClick={() => navigate(`/classroom/teacher/${id}`)}
               >
@@ -55,7 +70,7 @@ export const Nav = () => {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger
-                onClick={() => navigate(`/teacher/${teacherId}/students`)}
+                onClick={() => navigate(`/teacher/${id}/students`)}
               >
                 Students
               </NavigationMenuTrigger>
@@ -65,6 +80,11 @@ export const Nav = () => {
       )}
       {profile.toLowerCase() === "STUDENT".toLowerCase() && (
         <NavigationMenu>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger onClick={() => navigate("/home")}>
+              Home
+            </NavigationMenuTrigger>
+          </NavigationMenuItem>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger

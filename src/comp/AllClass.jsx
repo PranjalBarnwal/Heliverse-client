@@ -54,7 +54,7 @@ export const AllClassrooms = () => {
     { value: "SATURDAY", label: "Saturday" },
     { value: "SUNDAY", label: "Sunday" },
   ];
-  
+
   const fetchTeachers = async () => {
     try {
       const response = await fetch(`${headerEP}/account/teacher`, {
@@ -142,12 +142,12 @@ export const AllClassrooms = () => {
       }
 
       const result = await response.json();
-      // console.log(result.message);
+      
       fetchTeachers();
       fetchClassrooms();
       setSelectedTeachers((prev) => ({
         ...prev,
-        [classID]: "", // Clear the selection for the class after save
+        [classID]: "", 
       }));
     } catch (error) {
       setError(error.message);
@@ -172,12 +172,12 @@ export const AllClassrooms = () => {
       }
 
       const result = await response.json();
-      // console.log(result.message);
+      
       fetchTeachers();
       fetchClassrooms();
       setSelectedTeachers((prev) => ({
         ...prev,
-        [classID]: "", // Clear the selection after unassigning
+        [classID]: "", 
       }));
     } catch (error) {
       setError(error.message);
@@ -208,17 +208,15 @@ export const AllClassrooms = () => {
     }
   };
 
-  const handleSaveChanges = async() => {
+  const handleSaveChanges = async () => {
     let obj = {};
-    // Handle the logic to save changes here
-    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+
+    const today = new Date().toISOString().split("T")[0];
     obj.classroomId = selectedClass;
     obj.day = selectedDay;
-   
 
-obj.startTime=`${today}T${startTime}:00`; // '2024-08-12T08:30:00'
-obj.endTime= `${today}T${endTime}:00`   // '2024-08-12T10:00:00'
-// console.log(obj.startTime);
+    obj.startTime = `${today}T${startTime}:00`;
+    obj.endTime = `${today}T${endTime}:00`;
 
     try {
       const response = await fetch(`${headerEP}/account/add/schedule`, {
@@ -229,21 +227,18 @@ obj.endTime= `${today}T${endTime}:00`   // '2024-08-12T10:00:00'
         },
         body: JSON.stringify(obj),
       });
-  
+
       const data = await response.json();
       fetchClassrooms();
       if (response.ok) {
-        alert(data.message); 
+        alert(data.message);
       } else {
-        alert(data.message); 
+        alert(data.message);
       }
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred while adding the schedule.");
     }
-  
-    // console.log(obj);
-    
   };
   useEffect(() => {
     if (profile.toLowerCase() != "PRINCIPAL".toLowerCase()) {
