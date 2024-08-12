@@ -8,7 +8,18 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
+import { UserPen } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { headerEP } from "@/constants";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -20,16 +31,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
+
 export const AllClassrooms = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [classrooms, setClassrooms] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTeachers, setSelectedTeachers] = useState({});
+  const [selectedClass, setSelectedClass] = useState("");
+  const [selectedDay, setSelectedDay] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [error, setError] = useState(null);
   const token = useSelector((state) => state.user.token);
   const profile = useSelector((state) => state.user.profile);
-
+  const daysOfWeek = [
+    { value: "MONDAY", label: "Monday" },
+    { value: "TUESDAY", label: "Tuesday" },
+    { value: "WEDNESDAY", label: "Wednesday" },
+    { value: "THURSDAY", label: "Thursday" },
+    { value: "FRIDAY", label: "Friday" },
+    { value: "SATURDAY", label: "Saturday" },
+    { value: "SUNDAY", label: "Sunday" },
+  ];
+  
   const fetchTeachers = async () => {
     try {
       const response = await fetch(`${headerEP}/account/teacher`, {
@@ -117,7 +142,7 @@ export const AllClassrooms = () => {
       }
 
       const result = await response.json();
-      console.log(result.message);
+      // console.log(result.message);
       fetchTeachers();
       fetchClassrooms();
       setSelectedTeachers((prev) => ({
@@ -128,6 +153,7 @@ export const AllClassrooms = () => {
       setError(error.message);
     }
   };
+
   const handleUnassign = async (classID) => {
     try {
       const response = await fetch(`${headerEP}/unassign/teacher`, {
@@ -146,7 +172,7 @@ export const AllClassrooms = () => {
       }
 
       const result = await response.json();
-      console.log(result.message);
+      // console.log(result.message);
       fetchTeachers();
       fetchClassrooms();
       setSelectedTeachers((prev) => ({
@@ -157,6 +183,7 @@ export const AllClassrooms = () => {
       setError(error.message);
     }
   };
+
   const handleDeleteClass = async (classID) => {
     try {
       const response = await fetch(`${headerEP}/account/classroom/delete`, {
@@ -180,9 +207,47 @@ export const AllClassrooms = () => {
       alert(error.message);
     }
   };
+
+  const handleSaveChanges = async() => {
+    let obj = {};
+    // Handle the logic to save changes here
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    obj.classroomId = selectedClass;
+    obj.day = selectedDay;
+   
+
+obj.startTime=`${today}T${startTime}:00`; // '2024-08-12T08:30:00'
+obj.endTime= `${today}T${endTime}:00`   // '2024-08-12T10:00:00'
+// console.log(obj.startTime);
+
+    try {
+      const response = await fetch(`${headerEP}/account/add/schedule`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(obj),
+      });
+  
+      const data = await response.json();
+      fetchClassrooms();
+      if (response.ok) {
+        alert(data.message); 
+      } else {
+        alert(data.message); 
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while adding the schedule.");
+    }
+  
+    // console.log(obj);
+    
+  };
   useEffect(() => {
-    if(profile.toLowerCase() != "PRINCIPAL".toLowerCase()){
-      alert("Unauthorised access, Login as Principal to access");
+    if (profile.toLowerCase() != "PRINCIPAL".toLowerCase()) {
+      alert("Unauthorized access, Login as Principal to access");
       navigate("/signin");
     }
     fetchClassrooms();
@@ -201,6 +266,7 @@ export const AllClassrooms = () => {
             <TableHead className="w-[15vw]">Classroom Name</TableHead>
             <TableHead className="w-[20vw]">Teacher Name</TableHead>
             <TableHead>Schedules</TableHead>
+            <TableHead>Schedule</TableHead>
             <TableHead>Assign</TableHead>
             <TableHead>Delete</TableHead>
           </TableRow>
@@ -215,7 +281,6 @@ export const AllClassrooms = () => {
                   ? classroom.teacher.name
                   : "No Teacher Assigned"}
               </TableCell>
-
               <TableCell>
                 {classroom.schedules.length > 0 ? (
                   classroom.schedules.map((schedule, index) => (
@@ -233,6 +298,101 @@ export const AllClassrooms = () => {
                   <p>No Schedules</p>
                 )}
               </TableCell>
+              <TableCell>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">
+                      {classroom.schedules.length > 0 ? (
+                        <Button variant="outline">Edit Schedule</Button>
+                      ) : (
+                        <Button variant="default">Add Schedule</Button>
+                      )}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Add Schedule</DialogTitle>
+                    </DialogHeader>
+                    <form action="" onSubmit={handleSaveChanges}>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Select
+                            value={selectedClass}
+                            onValueChange={(value) => setSelectedClass(value)}
+                            required
+                          >
+                            <SelectTrigger className="w-[280px]">
+                              <SelectValue placeholder="Select a class" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Select a class</SelectLabel>
+                                {classrooms.map((classroom) => (
+                                  <SelectItem
+                                    key={classroom.id}
+                                    value={classroom.id}
+                                  >
+                                    {classroom.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Select
+                            value={selectedDay}
+                            onValueChange={(value) => setSelectedDay(value)}
+                            required
+                          >
+                            <SelectTrigger className="w-[280px]">
+                              <SelectValue placeholder="Select a day" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>Select a day</SelectLabel>
+                                {daysOfWeek.map((day) => (
+                                  <SelectItem key={day.value} value={day.value}>
+                                    {day.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="scheduleStartTime">Start Time</Label>
+                          <Input
+                            id="scheduleStartTime"
+                            type="time"
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                            placeholder="Enter start time"
+                            required
+                          />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="scheduleEndTime">End Time</Label>
+                          <Input
+                            id="scheduleEndTime"
+                            type="time"
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                            placeholder="Enter end time"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button onSubmit={handleSaveChanges} type="submit">
+                          Save changes
+                        </Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </TableCell>
+
               <TableCell>
                 {classroom.teacher ? (
                   <div className="flex items-center space-x-2">
@@ -275,10 +435,11 @@ export const AllClassrooms = () => {
                   Save
                 </Button>
               </TableCell>
+
               <TableCell>
                 <Button
                   variant="destructive"
-                  onClick={()=>handleDeleteClass(classroom.id)}
+                  onClick={() => handleDeleteClass(classroom.id)}
                 >
                   Delete
                 </Button>

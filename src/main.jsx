@@ -14,6 +14,7 @@ import { AllStudents } from "./comp/AllStudents.jsx";
 import CreateEntities from "./comp/CreateEntities.jsx";
 import {MyClassroom} from "./comp/MyClassroom.jsx";
 import {MyStudents} from "./comp/MyStudents.jsx";
+import { StudentClass } from "./comp/StudentClass.jsx";
 
 const router = createHashRouter([
   {
@@ -52,6 +53,10 @@ const router = createHashRouter([
       {
         path: "create",
         element: <CreateEntities />,
+      },
+      {
+        path: "/classroom/student/:id",
+        element: <StudentClass />,
       },
     ],
   },

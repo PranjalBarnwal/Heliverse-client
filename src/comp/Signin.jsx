@@ -45,7 +45,7 @@ export function Signin() {
     }
 
     try {
-      console.log(email, password);
+      // console.log(email, password);
       
       const response = await fetch(endpoint, {
         method: "POST",
@@ -54,7 +54,7 @@ export function Signin() {
       });
   
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       
       if (response.ok) {
         dispatch(addUser({ token: data.token, profile: data.role ,id:data.userid}));

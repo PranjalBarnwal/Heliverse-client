@@ -100,7 +100,7 @@ export const MyStudents = () => {
       }
 
       const updatedStudent = await response.json();
-      console.log(updatedStudent);
+    //   console.log(updatedStudent);
       fetchStudents(id);
       alert("Student updated successfully");
       setEditEmail("");

@@ -13,11 +13,11 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 export const Nav = () => {
   const profile = useSelector((store) => store.user.profile);
-  const teacherId = useSelector((store) => store.user.id);
+  const id = useSelector((store) => store.user.id);
   const navigate = useNavigate();
   return (
     <div className="flex justify-center w-screen">
-      {profile.toLowerCase() === "PRINCIPAL" && (
+      {profile.toLowerCase() === "PRINCIPAL".toLowerCase() && (
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
@@ -47,20 +47,32 @@ export const Nav = () => {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger onClick={() => navigate(`/classroom/teacher/${teacherId}`)}>
+              <NavigationMenuTrigger
+                onClick={() => navigate(`/classroom/teacher/${id}`)}
+              >
                 Classroom
               </NavigationMenuTrigger>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger onClick={() => navigate(`/teacher/${teacherId}/students`)}>
+              <NavigationMenuTrigger
+                onClick={() => navigate(`/teacher/${teacherId}/students`)}
+              >
                 Students
               </NavigationMenuTrigger>
             </NavigationMenuItem>
-            {/* <NavigationMenuItem>
-              <NavigationMenuTrigger onClick={() => navigate("/createTimetabe")}>
-                Create
+          </NavigationMenuList>
+        </NavigationMenu>
+      )}
+      {profile.toLowerCase() === "STUDENT".toLowerCase() && (
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger
+                onClick={() => navigate(`/classroom/student/${id}`)}
+              >
+                Go to your classroom
               </NavigationMenuTrigger>
-            </NavigationMenuItem> */}
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       )}

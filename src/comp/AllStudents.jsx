@@ -120,7 +120,7 @@ export const AllStudents = () => {
       }
 
       const updatedStudent = await response.json();
-      console.log(updatedStudent);
+      // console.log(updatedStudent);
       fetchStudents();
       alert("Student updated successfully");
       setEditEmail("");

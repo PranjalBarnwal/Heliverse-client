@@ -49,7 +49,7 @@ export const AllTeacher = () => {
 
       const result = await response.json();
       setTeachers(result.teachers);
-      console.log(result);
+      // console.log(result);
       
     } catch (error) {
       setError(error.message);
@@ -85,7 +85,7 @@ export const AllTeacher = () => {
         throw new Error("Failed to update teacher");
       }
       const updatedTeacher = await response.json();
-      console.log(updatedTeacher);
+      // console.log(updatedTeacher);
 
       fetchTeachers();
       if(updateBody?.name !=null || updateBody?.password!=null || updateBody?.email!=null)

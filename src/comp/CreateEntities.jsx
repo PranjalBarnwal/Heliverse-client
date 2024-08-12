@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { headerEP } from "@/constants";
 import { useNavigate } from "react-router-dom";
 const CreateEntities = () => {
-    const navigate=useNavigate();
+  const navigate = useNavigate();
   const [entityType, setEntityType] = useState("class");
   const [className, setClassName] = useState("");
   const [teacherName, setTeacherName] = useState("");
@@ -24,6 +24,10 @@ const CreateEntities = () => {
   const [studentName, setStudentName] = useState("");
   const [studentEmail, setStudentEmail] = useState("");
   const [studentPassword, setStudentPassword] = useState("");
+  // const [scheduleClassName, setScheduleClassName] = useState("");
+  // const [scheduleDay, setScheduleDay] = useState("");
+  // const [scheduleStartTime, setScheduleStartTime] = useState("");
+  // const [scheduleEndTime, setScheduleEndTime] = useState("");
   const token = useSelector((state) => state.user.token);
   const profile = useSelector((state) => state.user.profile);
   useEffect(() => {
@@ -132,6 +136,10 @@ const CreateEntities = () => {
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="student" id="student" />
             <Label htmlFor="student">Create Student</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="schedule" id="schedule" />
+            <Label htmlFor="schedule">Create Schedule</Label>
           </div>
         </RadioGroup>
 
@@ -280,6 +288,68 @@ const CreateEntities = () => {
             </Card>
           </form>
         )}
+
+        {/* {entityType === "schedule" && (
+          <form onSubmit={handleCreateSchedule}>
+            <Card className="w-full max-w-sm">
+              <CardHeader>
+                <CardTitle className="text-2xl">Create Schedule</CardTitle>
+                <CardDescription>
+                  Enter schedule details below to create a new schedule.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="scheduleClassName">Class Name</Label>
+                  <Input
+                    id="scheduleClassName"
+                    value={scheduleClassName}
+                    onChange={(e) => setScheduleClassName(e.target.value)}
+                    placeholder="Enter class name"
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="scheduleDay">Day</Label>
+                  <Input
+                    id="scheduleDay"
+                    value={scheduleDay}
+                    onChange={(e) => setScheduleDay(e.target.value)}
+                    placeholder="Enter day"
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="scheduleStartTime">Start Time</Label>
+                  <Input
+                    id="scheduleStartTime"
+                    type="time"
+                    value={scheduleStartTime}
+                    onChange={(e) => setScheduleStartTime(e.target.value)}
+                    placeholder="Enter start time"
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="scheduleEndTime">End Time</Label>
+                  <Input
+                    id="scheduleEndTime"
+                    type="time"
+                    value={scheduleEndTime}
+                    onChange={(e) => setScheduleEndTime(e.target.value)}
+                    placeholder="Enter end time"
+                    required
+                  />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full" type="submit">
+                  Create Schedule
+                </Button>
+              </CardFooter>
+            </Card>
+          </form>
+        )} */}
       </div>
     </div>
   );
