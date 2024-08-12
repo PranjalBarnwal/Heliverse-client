@@ -57,7 +57,7 @@ export function Signin() {
       console.log(data);
       
       if (response.ok) {
-        dispatch(addUser({ token: data.token, profile: data.role }));
+        dispatch(addUser({ token: data.token, profile: data.role ,id:data.userid}));
         navigate("/home");
       } else {
         console.error(data.message);

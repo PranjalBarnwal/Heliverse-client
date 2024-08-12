@@ -14,7 +14,7 @@ export const Home = () => {
 
   return (
     <div>
-      Home
+      Welcome to Heliverse School of Technology - By PRANJAL BARNWAL
     </div>
   );
 };
