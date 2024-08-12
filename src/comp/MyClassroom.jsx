@@ -35,6 +35,7 @@ export const MyClassroom = () => {
   const { id } = useParams();
   const token = useSelector((store) => store.user.token);
   useEffect(() => {
+    alert("The optional feature of adding lectures is working on my local but the hosting render.com is causing issues.It will be solved asap")
     fetchClassroom();
   }, [id]);
 
