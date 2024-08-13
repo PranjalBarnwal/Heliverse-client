@@ -99,10 +99,10 @@ export const StudentClass = () => {
                 <TableBody>
                   <TableRow>
                     <TableCell>
-                      {new Date(schedule.startTime).toLocaleTimeString()}
+                      {schedule.startTime}
                     </TableCell>
                     <TableCell>
-                      {new Date(schedule.endTime).toLocaleTimeString()}
+                      {schedule.endTime}
                     </TableCell>
                   </TableRow>
                 </TableBody>
