@@ -11,9 +11,7 @@ export const Home = () => {
       navigate("/signin");
     }
 
-    alert(
-      "Note:- Sometimes the features can take time due to slow hostng . Please logout and login again if so happens or contact me on 8083696152"
-    );
+    
   }, []);
 
   return (

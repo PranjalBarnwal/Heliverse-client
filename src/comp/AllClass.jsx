@@ -142,12 +142,12 @@ export const AllClassrooms = () => {
       }
 
       const result = await response.json();
-      
+
       fetchTeachers();
       fetchClassrooms();
       setSelectedTeachers((prev) => ({
         ...prev,
-        [classID]: "", 
+        [classID]: "",
       }));
     } catch (error) {
       setError(error.message);
@@ -172,12 +172,12 @@ export const AllClassrooms = () => {
       }
 
       const result = await response.json();
-      
+
       fetchTeachers();
       fetchClassrooms();
       setSelectedTeachers((prev) => ({
         ...prev,
-        [classID]: "", 
+        [classID]: "",
       }));
     } catch (error) {
       setError(error.message);
@@ -208,17 +208,18 @@ export const AllClassrooms = () => {
     }
   };
 
-  const handleSaveChanges = async (id) => {
+  const handleSaveChanges = async (e, id) => {
+    e.preventDefault();
     let obj = {};
 
-    const today = new Date().toISOString().split("T")[0];
+    // const today = new Date().toISOString().split("T")[0];
     obj.classroomId = id;
     obj.day = selectedDay;
 
-    obj.startTime = `${today}T${startTime}:00`;
-    obj.endTime = `${today}T${endTime}:00`;
+    obj.startTime = startTime;
+    obj.endTime = endTime;
     console.log(obj);
-    
+
     try {
       const response = await fetch(`${headerEP}/account/add/schedule`, {
         method: "POST",
@@ -282,12 +283,10 @@ export const AllClassrooms = () => {
                   classroom.schedules.map((schedule, index) => (
                     <div key={index}>
                       <p>{schedule.day}</p>
-                      <p>{`Start: ${new Date(
-                        schedule.startTime
-                      ).toLocaleTimeString()}`}</p>
-                      <p>{`End: ${new Date(
+                      <p>{`Start: ${schedule.startTime}`}</p>
+                      <p>{`End: ${
                         schedule.endTime
-                      ).toLocaleTimeString()}`}</p>
+                      }`}</p>
                     </div>
                   ))
                 ) : (
@@ -309,7 +308,10 @@ export const AllClassrooms = () => {
                     <DialogHeader>
                       <DialogTitle>Add Schedule</DialogTitle>
                     </DialogHeader>
-                    <form action="" onSubmit={()=>handleSaveChanges(classroom.id)}>
+                    <form
+                      action=""
+                      onSubmit={(e) => handleSaveChanges(e, classroom.id)}
+                    >
                       <div className="grid gap-4 py-4">
                         {/* <div className="grid grid-cols-4 items-center gap-4">
                           <Select
@@ -380,9 +382,7 @@ export const AllClassrooms = () => {
                         </div>
                       </div>
                       <DialogFooter>
-                        <Button  type="submit">
-                          Save changes
-                        </Button>
+                        <Button type="submit">Save changes</Button>
                       </DialogFooter>
                     </form>
                   </DialogContent>

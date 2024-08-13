@@ -35,7 +35,7 @@ export const MyClassroom = () => {
   const { id } = useParams();
   const token = useSelector((store) => store.user.token);
   useEffect(() => {
-    alert("The optional feature of adding lectures is working on my local but the hosting render.com is causing issues.It will be solved asap")
+    // alert("The optional feature of adding lectures is working on my local but the hosting render.com is causing issues.It will be solved asap")
     fetchClassroom();
   }, [id]);
 
@@ -60,10 +60,10 @@ export const MyClassroom = () => {
 
     let obj = {};
     obj.scheduleId = id;
-    const today = new Date().toISOString().split("T")[0];
+    // const today = new Date().toISOString().split("T")[0];
     if (subject) obj.subject = subject;
-    if (startTime) obj.startTime = `${today}T${startTime}:00`;
-    if (endTime) obj.endTime = `${today}T${endTime}:00`;
+    if (startTime) obj.startTime = startTime;
+    if (endTime) obj.endTime = endTime;
 
     console.log(obj);
 
@@ -145,10 +145,10 @@ export const MyClassroom = () => {
                       {schedule.day}
                     </TableCell>
                     <TableCell>
-                      {new Date(schedule.startTime).toLocaleTimeString()}
+                      {schedule.startTime}
                     </TableCell>
                     <TableCell>
-                      {new Date(schedule.endTime).toLocaleTimeString()}
+                      {schedule.endTime}
                     </TableCell>
                     <TableCell>
                       <Dialog>
@@ -235,10 +235,10 @@ export const MyClassroom = () => {
                           {lecture.subject}
                         </TableCell>
                         <TableCell>
-                          {new Date(lecture.startTime).toLocaleTimeString()}
+                          {lecture.startTime}
                         </TableCell>
                         <TableCell>
-                          {new Date(lecture.endTime).toLocaleTimeString()}
+                          {lecture.endTime}
                         </TableCell>
                         <TableCell>
                           <Button
